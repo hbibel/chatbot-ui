@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 
+import { toggleHistoryVisibility } from "@/actions/history";
 import { Button } from "@/components/lib";
 
 export default () => {
@@ -7,5 +8,5 @@ export default () => {
     keyPrefix: "components.historyButton",
   });
 
-  return <Button>{t("label")}</Button>;
+  return <Button onClick={toggleHistoryVisibility}>{t("label")}</Button>;
 };

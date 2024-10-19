@@ -1,7 +1,7 @@
 {
   "components": {
     "historyButton": {
-      "label": "Open it"
+      "label": "Open History"
     }
   }
 }
