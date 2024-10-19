@@ -1,5 +1,8 @@
 {
   "components": {
+    "clearChatButton": {
+      "label": "Clear Chat"
+    },
     "historyButton": {
       "label": "Open History"
     }

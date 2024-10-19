@@ -1,5 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 
+import ClearChatButton from "@/components/clear-chat-button";
 import HistoryButton from "@/components/history-button";
 import { useApplicationState } from "@/state/state";
 
@@ -17,8 +18,7 @@ export default function Index() {
     <div className="flex flex-col mt-1">
       <div className="flex justify-between">
         <HistoryButton />
-        {!historyVisible && "history is not visible"}
-        {historyVisible && "history is visible"}
+        <ClearChatButton />
       </div>
     </div>
   );
