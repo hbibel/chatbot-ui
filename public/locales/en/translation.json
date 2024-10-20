@@ -5,6 +5,9 @@
     },
     "historyButton": {
       "label": "Open History"
+    },
+    "uploadFileButton": {
+      "label": "Upload File"
     }
   }
 }

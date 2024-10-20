@@ -2,6 +2,7 @@ import type { MetaFunction } from "@remix-run/node";
 
 import ClearChatButton from "@/components/clear-chat-button";
 import HistoryButton from "@/components/history-button";
+import UploadFileButton from "@/components/upload-file-button";
 import { useApplicationState } from "@/state/state";
 
 export const meta: MetaFunction = () => {
@@ -18,7 +19,10 @@ export default function Index() {
     <div className="flex flex-col mt-1">
       <div className="flex justify-between">
         <HistoryButton />
-        <ClearChatButton />
+        <div className="flex px-1 self-end">
+          <ClearChatButton />
+          <UploadFileButton />
+        </div>
       </div>
     </div>
   );
