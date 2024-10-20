@@ -1,6 +1,6 @@
 import { vi } from "vitest";
 
-export const mockReactI18Next = () => {
+export const mockReactI18Next: () => void = () => {
   vi.mock(import("react-i18next"), async importOriginal => {
     const mod = await importOriginal();
 
