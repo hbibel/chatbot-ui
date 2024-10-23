@@ -20,3 +20,7 @@ export const addMessage: (msg: Message) => void = msg => {
     },
   }));
 };
+
+export const uploadFiles: (files: FileList) => void = files => {
+  // TODO
+};

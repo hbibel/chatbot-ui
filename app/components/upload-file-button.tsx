@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
-import Button from "./lib/button";
+import { uploadFiles } from "@/actions/chat";
+
 import FileInput from "./lib/file-input";
 
 export default () => {
@@ -8,5 +9,11 @@ export default () => {
     keyPrefix: "components.uploadFileButton",
   });
 
-  return <FileInput id="chat-upload-file" label={t("label")} />;
+  return (
+    <FileInput
+      id="chat-upload-file"
+      label={t("label")}
+      onFilesSelected={uploadFiles}
+    />
+  );
 };

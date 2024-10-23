@@ -1,8 +1,15 @@
-import { DetailedHTMLProps, InputHTMLAttributes } from "react";
+import {
+  ChangeEvent,
+  DetailedHTMLProps,
+  InputHTMLAttributes,
+  Ref,
+  useRef,
+} from "react";
 
 type Props = {
   id: string;
   label: string;
+  onFilesSelected: (files: FileList) => void;
 } & Omit<
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
   "type"
@@ -10,6 +17,17 @@ type Props = {
 
 export default (props: Props) => {
   const { id, ...remainingProps } = props;
+
+  const inputRef: Ref<HTMLInputElement> = useRef(null);
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = inputRef.current?.files;
+    if (files !== null && files !== undefined) {
+      props.onFilesSelected(files);
+    }
+    if (props.onChange !== undefined) {
+      props.onChange(e);
+    }
+  };
 
   return (
     <>
@@ -25,7 +43,14 @@ export default (props: Props) => {
       >
         {props.label}
       </label>
-      <input className="hidden" type="file" id={id} {...remainingProps} />
+      <input
+        className="hidden"
+        type="file"
+        id={id}
+        {...remainingProps}
+        onChange={onChange}
+        ref={inputRef}
+      />
     </>
   );
 };
