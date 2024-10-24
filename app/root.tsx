@@ -17,11 +17,11 @@ import i18next from "@/i18next.server";
 import "./tailwind.css";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  let locale = await i18next.getLocale(request);
+  const locale = await i18next.getLocale(request);
   return json({ locale });
 }
 
-export let handle = {
+export const handle = {
   i18n: "translation",
 };
 
@@ -39,9 +39,9 @@ export const links: LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  let { locale } = useLoaderData<typeof loader>();
+  const { locale } = useLoaderData<typeof loader>();
 
-  let { i18n } = useTranslation();
+  const { i18n } = useTranslation();
   useChangeLanguage(locale);
 
   return (

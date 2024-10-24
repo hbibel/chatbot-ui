@@ -4,8 +4,8 @@ import { clearChat } from "@/actions/chat";
 import { Button } from "@/components/lib";
 import { useApplicationState } from "@/state/state";
 
-export default () => {
-  let { t } = useTranslation("translation", {
+export default function ClearChatButton() {
+  const { t } = useTranslation("translation", {
     keyPrefix: "components.clearChatButton",
   });
   const disabled = useApplicationState(s => s.chat.messages.length === 0);
@@ -15,4 +15,4 @@ export default () => {
       {t("label")}
     </Button>
   );
-};
+}

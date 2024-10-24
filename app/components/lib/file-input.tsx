@@ -15,7 +15,7 @@ type Props = {
   "type"
 >;
 
-export default (props: Props) => {
+export default function FileInput(props: Props) {
   const { id, ...remainingProps } = props;
 
   const inputRef: Ref<HTMLInputElement> = useRef(null);
@@ -53,4 +53,4 @@ export default (props: Props) => {
       />
     </>
   );
-};
+}

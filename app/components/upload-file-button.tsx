@@ -2,10 +2,10 @@ import { useTranslation } from "react-i18next";
 
 import { uploadFiles } from "@/actions/chat";
 
-import FileInput from "./lib/file-input";
+import { FileInput } from "./lib";
 
-export default () => {
-  let { t } = useTranslation("translation", {
+export default function UploadFileButton() {
+  const { t } = useTranslation("translation", {
     keyPrefix: "components.uploadFileButton",
   });
 
@@ -16,4 +16,4 @@ export default () => {
       onFilesSelected={uploadFiles}
     />
   );
-};
+}

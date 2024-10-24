@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes } from "react";
 
 interface Props extends ButtonHTMLAttributes<Element> {}
 
-export default (props: Props) => {
+export default function Button(props: Props) {
   const { children, ...buttonProps } = { ...props };
   return (
     <button
@@ -19,4 +19,4 @@ export default (props: Props) => {
       {children}
     </button>
   );
-};
+}
