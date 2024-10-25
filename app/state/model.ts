@@ -7,6 +7,7 @@ export interface State {
     historyVisible: boolean;
   };
   chat: {
+    // TODO remove
     messages: Message[];
   };
 }

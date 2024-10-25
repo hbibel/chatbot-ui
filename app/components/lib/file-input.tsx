@@ -9,20 +9,20 @@ import {
 type Props = {
   id: string;
   label: string;
-  onFilesSelected: (files: FileList) => void;
+  onFileSelected: (files: FileList) => void;
 } & Omit<
   DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>,
   "type"
 >;
 
 export default function FileInput(props: Props) {
-  const { id, ...remainingProps } = props;
+  const { id, label, onFileSelected, ...remainingProps } = props;
 
   const inputRef: Ref<HTMLInputElement> = useRef(null);
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = inputRef.current?.files;
     if (files !== null && files !== undefined) {
-      props.onFilesSelected(files);
+      onFileSelected(files);
     }
     if (props.onChange !== undefined) {
       props.onChange(e);
@@ -41,7 +41,7 @@ export default function FileInput(props: Props) {
         disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200
       `}
       >
-        {props.label}
+        {label}
       </label>
       <input
         className="hidden"

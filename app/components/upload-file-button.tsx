@@ -1,10 +1,13 @@
 import { useTranslation } from "react-i18next";
 
-import { uploadFiles } from "@/actions/chat";
-
 import { FileInput } from "./lib";
 
-export default function UploadFileButton() {
+interface Props {
+  onFileSelected: (files: FileList) => void;
+  formName?: string;
+}
+
+export default function UploadFileButton(props: Props) {
   const { t } = useTranslation("translation", {
     keyPrefix: "components.uploadFileButton",
   });
@@ -13,7 +16,8 @@ export default function UploadFileButton() {
     <FileInput
       id="chat-upload-file"
       label={t("label")}
-      onFilesSelected={uploadFiles}
+      name={props.formName}
+      onFileSelected={props.onFileSelected}
     />
   );
 }

@@ -1,10 +1,5 @@
 import type { MetaFunction } from "@remix-run/node";
 
-import ClearChatButton from "@/components/clear-chat-button";
-import HistoryButton from "@/components/history-button";
-import UploadFileButton from "@/components/upload-file-button";
-import { useApplicationState } from "@/state/state";
-
 export const meta: MetaFunction = () => {
   return [
     { title: "Chat Bot" },
@@ -13,17 +8,9 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const historyVisible = useApplicationState(s => s.ui.historyVisible);
-
   return (
     <div className="flex flex-col mt-1">
-      <div className="flex justify-between">
-        <HistoryButton />
-        <div className="flex px-1 self-end">
-          <ClearChatButton />
-          <UploadFileButton />
-        </div>
-      </div>
+      <div className="flex justify-between">TODO: navigate to /chat</div>
     </div>
   );
 }
