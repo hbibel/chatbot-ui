@@ -43,7 +43,7 @@ export default function Index() {
           <uploadFileFetcher.Form
             ref={uploadFormRef}
             method="post"
-            action="documents"
+            action="/chat/documents"
             encType="multipart/form-data"
           >
             <UploadFileButton
