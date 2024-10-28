@@ -1,5 +1,5 @@
 import { type MetaFunction, json } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { Ref, useRef } from "react";
 
 import { getFiles } from "@/.server/documents";
@@ -22,18 +22,16 @@ export async function loader() {
   });
 }
 
-const UPLOAD_FILE_FORM_FIELD = "file";
-
 export default function Index() {
   const data = useLoaderData<typeof loader>();
 
-  const uploadFileFormRef: Ref<HTMLFormElement> = useRef(null);
-  const submitUploadFileForm = () => {
-    uploadFileFormRef.current?.submit();
-  };
+  const uploadFileFetcher = useFetcher();
+  const uploadFormRef: Ref<HTMLFormElement> = useRef(null);
 
   const onUploadFileSelected = () => {
-    submitUploadFileForm();
+    if (uploadFormRef !== null) {
+      uploadFileFetcher.submit(uploadFormRef.current);
+    }
   };
 
   return (
@@ -42,17 +40,17 @@ export default function Index() {
         <HistoryButton />
         <div className="flex px-1 self-end">
           <ClearChatButton />
-          <Form
-            ref={uploadFileFormRef}
+          <uploadFileFetcher.Form
+            ref={uploadFormRef}
             method="post"
             action="documents"
             encType="multipart/form-data"
           >
             <UploadFileButton
               onFileSelected={onUploadFileSelected}
-              formName={UPLOAD_FILE_FORM_FIELD}
+              formName="file"
             />
-          </Form>
+          </uploadFileFetcher.Form>
         </div>
       </div>
       <AttachedFilesList files={data.attachedFiles} />

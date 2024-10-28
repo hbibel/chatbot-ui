@@ -1,7 +1,6 @@
 import {
   ActionFunctionArgs,
   json,
-  redirect,
   unstable_createFileUploadHandler,
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
@@ -31,7 +30,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
     await addFile({ name: originalFileName ?? "unknown", id: fileUUID });
 
-    return redirect("/chat");
+    return json({});
   } else {
     return json("not allowed", { status: 405 });
   }
