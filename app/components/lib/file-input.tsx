@@ -6,6 +6,8 @@ import {
   useRef,
 } from "react";
 
+import Button from "./button";
+
 type Props = {
   id: string;
   label: string;
@@ -34,12 +36,13 @@ export default function FileInput(props: Props) {
       <label
         htmlFor={id}
         className={`
-        text-white font-bold py-2 px-4 rounded bg-gray-600 cursor-pointer
+          text-white font-bold py-2 px-4 rounded bg-gray-600 cursor-pointer
+          inline-block
 
-        enabled:hover:bg-gray-700
+          enabled:hover:bg-gray-700
 
-        disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200
-      `}
+          disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-200
+        `}
       >
         {label}
       </label>
