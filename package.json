@@ -22,6 +22,7 @@
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-feather": "^2.0.10",
     "react-i18next": "^15.0.3",
     "remix-i18next": "^6.4.1",
     "zustand": "^5.0.0"

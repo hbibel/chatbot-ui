@@ -5,7 +5,7 @@ import {
   unstable_parseMultipartFormData,
 } from "@remix-run/node";
 
-import { addFile } from "@/.server/documents";
+import { addFile, deleteFile } from "@/.server/documents";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   if (request.method.toLowerCase() === "get") {
@@ -30,6 +30,15 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
     await addFile({ name: originalFileName ?? "unknown", id: fileUUID });
 
+    return json({});
+  } else if (request.method.toLowerCase() === "delete") {
+    const id = await request.formData().then(data => data.get("id"));
+    if (typeof id !== "string") {
+      return json("'id' must be a string", { status: 400 });
+    }
+
+    console.log(`deleting file '${id}'`);
+    await deleteFile({ id });
     return json({});
   } else {
     return json("not allowed", { status: 405 });
