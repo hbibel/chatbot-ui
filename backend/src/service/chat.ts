@@ -9,6 +9,7 @@ export interface AiMessage {
 export type Message = AiMessage | UserMessage;
 
 export interface MessageChunkEvent {
+  type: "message-chunk";
   text: string;
 }
 
