@@ -3,10 +3,12 @@ import { z } from "zod";
 const ServerConfigSchema = z.object({
   host: z.string(),
   port: z.number({ coerce: true }).int().gt(0).lt(65536),
-})
+});
 const ModelConfigSchema = z.object({
   provider: z.literal("google"),
-})
+  apiKey: z.string(),
+  model: z.string(),
+});
 
 const AppConfigSchema = z.object({
   server: ServerConfigSchema,
@@ -21,7 +23,7 @@ export function loadConfigFromEnv(): AppConfig {
 
 // empty interface needed to work around recursive type definition
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface V extends NestedEnv { }
+interface V extends NestedEnv {}
 type NestedEnv = Record<string, string | V>;
 
 /**
@@ -46,68 +48,70 @@ type NestedEnv = Record<string, string | V>;
  *      }
  *    }
  * ```
-  */
-function envToObj(env: Record<string, string | undefined>): Record<string, unknown> {
-  const nestedDelimiter = "__"
+ */
+function envToObj(
+  env: Record<string, string | undefined>
+): Record<string, unknown> {
+  const nestedDelimiter = "__";
 
-  const camelCaseEnv: NestedEnv = {}
+  const camelCaseEnv: NestedEnv = {};
 
   for (const key in env) {
     // key = FOO__BAR_BAZ => path = [foo, barBaz]
-    const path = key.split(nestedDelimiter).map(toCamelCase)
+    const path = key.split(nestedDelimiter).map(toCamelCase);
 
     // valueContainer: The object that will finally contain the value env[key]
     let valueContainer = camelCaseEnv;
     for (let i = 0; i < path.length; i++) {
-      const k = path[i]
+      const k = path[i];
       if (i == path.length - 1) {
         // last path element => copy the original value from env
         if (valueContainer[k] !== undefined) {
-          const pathStr = path.join(".")
+          const pathStr = path.join(".");
           throw new Error(
             `The configuration value "${pathStr}" already exits. Maybe ` +
-            `there is a nested configuration object with the same key.`
-          )
+              `there is a nested configuration object with the same key.`
+          );
         }
-        valueContainer[k] = env[key] ?? ""
+        valueContainer[k] = env[key] ?? "";
       } else {
         if (!(k in valueContainer)) {
-          const obj = {}
-          valueContainer[k] = obj
+          const obj = {};
+          valueContainer[k] = obj;
         }
-        const val = valueContainer[k]
+        const val = valueContainer[k];
         if (typeof val === "string") {
-          // The environment contains an existing key { foo: "something" }, 
-          // and we're trying to add a nested value 
+          // The environment contains an existing key { foo: "something" },
+          // and we're trying to add a nested value
           // { foo: { bar: "something else" } }
-          const existingPathStr = path.slice(0, i + 1).join(".")
-          const nestedPathStr = path.join(".")
+          const existingPathStr = path.slice(0, i + 1).join(".");
+          const nestedPathStr = path.join(".");
           throw new Error(
             `The configuration value "${existingPathStr}" is not allowed ` +
-            `because there is a more deeply nested configuration value ` +
-            `"${nestedPathStr}"`
-          )
+              `because there is a more deeply nested configuration value ` +
+              `"${nestedPathStr}"`
+          );
         }
-        valueContainer = val
+        valueContainer = val;
       }
     }
   }
 
-  return camelCaseEnv
+  return camelCaseEnv;
 }
 
 function toCamelCase(s: string): string {
   if (s.length === 0) {
-    return s
+    return s;
   }
 
   const words = s.split("_").map(word => {
     if (word.length === 0) {
-      return word
+      return word;
     }
-    return word[0].toUpperCase() + word.slice(1).toLowerCase()
-  })
+    return word[0].toUpperCase() + word.slice(1).toLowerCase();
+  });
 
-  words[0] = words[0].toLowerCase()
-  return words.join("")
+  words[0] = words[0].toLowerCase();
+  return words.join("");
 }
