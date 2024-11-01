@@ -4,8 +4,8 @@
   "semi": true,
   "singleQuote": false,
   "arrowParens": "avoid",
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
-    "<THIRD_PARTY_MODULES>",
     "^@/",
     "^[./]"
   ],
