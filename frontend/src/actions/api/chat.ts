@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { Message } from "@/state/model";
+import { Message } from "@/state/chatModel";
 
 const ChatMessageEventSchema = z
   .object({
