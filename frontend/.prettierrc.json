@@ -6,7 +6,7 @@
   "arrowParens": "avoid",
   "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "importOrder": [
-    "^(react/(.*)$)|^(react$)",
+    "^(react/(.*)$)|^(react$)|^react-dom/",
     "<THIRD_PARTY_MODULES>",
     "^@/",
     "^[./]"
