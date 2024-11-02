@@ -4,14 +4,16 @@ import { postChat } from "./api/chat";
 
 export function useSendMessage() {
   const appendToLastMessage = useApplicationState(
-    state => state.appendToLastMessage
+    state => state.chatMutations.appendToLastMessage
   );
   const appendEmptyMessage = useApplicationState(
-    state => state.appendEmptyMessage
+    state => state.chatMutations.appendEmptyMessage
   );
-  const updateInput = useApplicationState(state => state.updateInput);
+  const updateInput = useApplicationState(
+    state => state.chatMutations.updateInput
+  );
   const appendUserMessage = useApplicationState(
-    state => state.appendUserMessage
+    state => state.chatMutations.appendUserMessage
   );
 
   const text = useApplicationState(state => state.chat.input);
