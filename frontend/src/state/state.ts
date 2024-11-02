@@ -39,7 +39,7 @@ export const useApplicationState = create<State & ChatMutations>(set => ({
         ...lastMessage,
         text: lastMessage.text + textPart,
       };
-      const messages = [...state.chat.messages.slice(-1), updatedMessage];
+      const messages = [...state.chat.messages.slice(0, -1), updatedMessage];
       return { ...state, chat: { ...state.chat, messages } };
     });
   },
