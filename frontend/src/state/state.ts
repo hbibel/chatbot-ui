@@ -5,6 +5,7 @@ import { Author, ChatState, Message } from "./chatModel";
 interface ChatMutations {
   appendToLastMessage: (text: string) => void;
   appendEmptyMessage: (author: Author) => void;
+  appendUserMessage: (text: string) => void;
   updateInput: (text: string) => void;
 }
 
@@ -40,6 +41,14 @@ export const useApplicationState = create<State & ChatMutations>(set => ({
         text: lastMessage.text + textPart,
       };
       const messages = [...state.chat.messages.slice(0, -1), updatedMessage];
+      return { ...state, chat: { ...state.chat, messages } };
+    });
+  },
+
+  appendUserMessage: function (text: string) {
+    set(state => {
+      const newMessage: Message = { author: "user", text };
+      const messages = [...state.chat.messages, newMessage];
       return { ...state, chat: { ...state.chat, messages } };
     });
   },
