@@ -13,7 +13,9 @@ export function useSendMessage() {
   const appendUserMessage = useApplicationState(
     state => state.appendUserMessage
   );
+
   const text = useApplicationState(state => state.chat.input);
+  const previousMessages = useApplicationState(state => state.chat.messages);
 
   return async () => {
     updateInput("");
@@ -22,7 +24,7 @@ export function useSendMessage() {
 
     // todo try/catch, reset input in catch block
     const events = await postChat({
-      messages: [{ author: "user", text }],
+      messages: [...previousMessages, { author: "user", text }],
     });
 
     for await (const event of events) {
