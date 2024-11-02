@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent } from "react";
 
 import { useSendMessage } from "@/actions/chat";
 import { useApplicationState } from "@/state/state";
@@ -8,8 +8,7 @@ import { Textarea } from "../ui/textarea";
 export default function Input() {
   const sendMessage = useSendMessage();
   const updateInput = useApplicationState(state => state.updateInput);
-
-  const [inputText, setInputText] = useState("");
+  const input = useApplicationState(state => state.chat.input);
 
   async function handleKeyPress(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (!event.shiftKey && event.key === "Enter") {
@@ -20,7 +19,6 @@ export default function Input() {
 
   function handleValueChange(event: ChangeEvent<HTMLTextAreaElement>) {
     const newText = event.target.value;
-    setInputText(newText);
     updateInput(newText);
   }
 
@@ -34,7 +32,7 @@ export default function Input() {
   // https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/
   return (
     <form
-      data-replicated-value={inputText}
+      data-replicated-value={input}
       className={`
         after:border after:px-3 after:py-2 after:text-sm
         after:[grid-area:1/1/2/2]
@@ -55,6 +53,7 @@ export default function Input() {
         `}
         onKeyDown={handleKeyPress}
         onChange={handleValueChange}
+        value={input}
       />
     </form>
   );

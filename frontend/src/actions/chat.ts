@@ -9,6 +9,7 @@ export function useSendMessage() {
   const appendEmptyMessage = useApplicationState(
     state => state.appendEmptyMessage
   );
+  const updateInput = useApplicationState(state => state.updateInput);
   const text = useApplicationState(state => state.chat.input);
 
   return async () => {
@@ -16,6 +17,7 @@ export function useSendMessage() {
       messages: [{ author: "user", text }],
     });
 
+    updateInput("");
     appendEmptyMessage("ai");
     for await (const event of events) {
       if (event.type === "message-chunk") {
