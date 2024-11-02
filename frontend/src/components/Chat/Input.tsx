@@ -1,4 +1,4 @@
-import { ChangeEvent, KeyboardEvent } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 
 import { useSendMessage } from "@/actions/chat";
 import { useApplicationState } from "@/state/state";
@@ -9,6 +9,8 @@ export default function Input() {
   const sendMessage = useSendMessage();
   const updateInput = useApplicationState(state => state.updateInput);
 
+  const [inputText, setInputText] = useState("");
+
   async function handleKeyPress(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (!event.shiftKey && event.key === "Enter") {
       event.preventDefault();
@@ -17,14 +19,43 @@ export default function Input() {
   }
 
   function handleValueChange(event: ChangeEvent<HTMLTextAreaElement>) {
-    updateInput(event.target.value);
+    const newText = event.target.value;
+    setInputText(newText);
+    updateInput(newText);
   }
 
+  async function handlePromptSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    await sendMessage();
+  }
+
+  // Some attributes impact the text area's size and need to be the same for
+  // the div's after pseudoelement to enable autogrowth for the textarea, see
+  // https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/
   return (
-    <Textarea
-      className="w-full h-full bg-black block overflow-auto resize-none"
-      onKeyUp={handleKeyPress}
-      onChange={handleValueChange}
-    />
+    <form
+      data-replicated-value={inputText}
+      className={`
+        after:border after:px-3 after:py-2 after:text-sm
+        after:[grid-area:1/1/2/2]
+
+        grid
+        after:content-[attr(data-replicated-value)]
+        after:whitespace-pre-wrap after:invisible
+      `}
+      onSubmit={handlePromptSubmit}
+    >
+      <Textarea
+        name="prompt"
+        className={`
+          border px-3 py-2 text-sm
+          [grid-area:1/1/2/2]
+
+          w-full overflow-hidden resize-none
+        `}
+        onKeyDown={handleKeyPress}
+        onChange={handleValueChange}
+      />
+    </form>
   );
 }
