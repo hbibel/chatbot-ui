@@ -1,5 +1,7 @@
 import { useApplicationState } from "@/state/state";
 
+import MessageBody from "./MessageBody";
+
 export default function History() {
   const messages = useApplicationState(state => state.chat.messages);
 
@@ -9,7 +11,7 @@ export default function History() {
         return (
           <div key={i}>
             <span>{message.author}: </span>
-            <span>{message.text}</span>
+            <MessageBody rawContent={message.text} />
           </div>
         );
       })}

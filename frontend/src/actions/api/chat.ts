@@ -1,3 +1,6 @@
+// This looks kinda cool:
+// import "highlight.js/styles/gradient-dark.min.css";
+import "highlight.js/styles/tokyo-night-dark.min.css";
 import { z } from "zod";
 
 import { Message } from "@/state/chatModel";
@@ -53,7 +56,17 @@ export async function postChat({
         if (done) break;
 
         const text = new TextDecoder().decode(value);
-        yield ChatMessageEventSchema.parse(JSON.parse(text));
+        try {
+          const events = text
+            .slice("data: ".length)
+            .split("\n\ndata: ")
+            .map(s => JSON.parse(s));
+          for (const event of events) {
+            yield ChatMessageEventSchema.parse(event);
+          }
+        } catch (err) {
+          console.error(`could not parse JSON ${text}: ${err}`);
+        }
       }
     } finally {
       reader.releaseLock();

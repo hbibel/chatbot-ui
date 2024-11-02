@@ -22,7 +22,7 @@ export function chatRouter({ streamChatCompletions }: ChatRouterEnv) {
         { streamChatCompletions },
         { messages: body.messages }
       )) {
-        yield event;
+        yield "data: " + JSON.stringify(event) + "\n\n";
       }
     },
     { body: PostRootSchema }
