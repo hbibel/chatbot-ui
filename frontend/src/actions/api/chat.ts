@@ -12,6 +12,8 @@ const ChatMessageEventSchema = z
   })
   .strict();
 
+export type ChatMessageEvent = z.infer<typeof ChatMessageEventSchema>;
+
 const ApiMessagesSchema = z.object({
   messages: z.array(
     z
@@ -28,9 +30,7 @@ interface PostChatArgs {
 }
 export async function postChat({
   messages,
-}: PostChatArgs): Promise<
-  AsyncIterable<z.infer<typeof ChatMessageEventSchema>>
-> {
+}: PostChatArgs): Promise<AsyncIterable<ChatMessageEvent>> {
   const apiMessages = ApiMessagesSchema.parse({ messages });
 
   const response = await fetch("/api/chat", {
